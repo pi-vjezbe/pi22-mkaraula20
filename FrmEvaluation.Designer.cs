@@ -82,6 +82,7 @@
             // 
             this.txtTeacher.Location = new System.Drawing.Point(367, 387);
             this.txtTeacher.Name = "txtTeacher";
+            this.txtTeacher.ReadOnly = true;
             this.txtTeacher.Size = new System.Drawing.Size(125, 20);
             this.txtTeacher.TabIndex = 4;
             // 

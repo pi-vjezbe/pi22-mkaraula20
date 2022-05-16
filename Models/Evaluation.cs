@@ -21,5 +21,9 @@ namespace Evaluation_Manager.Models
         {
             return Points >= Activity.MinPointsForSignature;
         }
+        public void UpdateEvaluation(int points)
+        {
+            
+        }
     }
 }
