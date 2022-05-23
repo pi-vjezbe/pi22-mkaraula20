@@ -13,17 +13,16 @@ namespace Evaluation_Manager.Models
         public Teacher Evaluator { get; set; }
         public DateTime EvaluationDate { get; set; }
         public int Points { get; set; }
+
         public bool IsSufficientForGrade()
         {
             return Points >= Activity.MinPointsForGrade;
         }
+
         public bool IsSufficientForSignature()
         {
             return Points >= Activity.MinPointsForSignature;
         }
-        public void UpdateEvaluation(int points)
-        {
-            
-        }
     }
+
 }

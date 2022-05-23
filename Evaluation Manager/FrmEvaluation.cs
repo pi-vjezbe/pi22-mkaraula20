@@ -15,20 +15,13 @@ namespace Evaluation_Manager
     public partial class FrmEvaluation : Form
     {
         private Student student;
+
+        public Student SelectedStudent { get => student; set => student = value; }
+
         public FrmEvaluation(Student selectedStudent)
         {
             InitializeComponent();
-            student = selectedStudent;
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtActicityDescription_TextChanged(object sender, EventArgs e)
-        {
-
+            SelectedStudent = selectedStudent;
         }
 
         private void FrmEvaluation_Load(object sender, EventArgs e)
@@ -40,22 +33,20 @@ namespace Evaluation_Manager
 
         private void SetFormText()
         {
-            Text = student.FirstName + " " + student.LastName;
+            Text = SelectedStudent.FirstName + " " + SelectedStudent.LastName;
         }
 
         private void cboActivities_SelectedIndexChanged(object sender, EventArgs e)
         {
             var currentActivity = cboActivities.SelectedItem as Activity;
             txtActivityDescription.Text = currentActivity.Description;
-            txtMinForGrade.Text = currentActivity.MinPointsForGrade + "/" +
-           currentActivity.MaxPoints;
-            txtMinForSignature.Text = currentActivity.MinPointsForSignature + "/" +
-           currentActivity.MaxPoints;
+            txtMinForGrade.Text = currentActivity.MinPointsForGrade + "/" + currentActivity.MaxPoints;
+            txtMinForSignature.Text = currentActivity.MinPointsForSignature + "/" + currentActivity.MaxPoints;
             numPoints.Minimum = 0;
             numPoints.Maximum = currentActivity.MaxPoints;
 
-            var evaluation = EvaluationRepository.GetEvaluation(student, currentActivity);
-            if(evaluation != null)
+            var evaluation = EvaluationRepository.GetEvaluation(SelectedStudent, currentActivity);
+            if (evaluation != null)
             {
                 txtTeacher.Text = evaluation.Evaluator.ToString();
                 txtEvaluationDate.Text = evaluation.EvaluationDate.ToString();
@@ -67,11 +58,24 @@ namespace Evaluation_Manager
                 txtEvaluationDate.Text = "-";
                 numPoints.Value = 0;
             }
+
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            var activity = cboActivities.SelectedItem as Activity;
+            var teacher = FrmLogin.LoggedTeacher;
+
+            int points = (int)numPoints.Value;
+
+            teacher.PerformEvaluation(SelectedStudent, activity, points);
+            Close();
+
         }
     }
 }
